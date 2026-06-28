@@ -33,3 +33,5 @@ target/
 
 # OS
 .DS_Store
+
+data/
