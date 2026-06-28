@@ -1,4 +1,4 @@
 package com.mlp;
 
-public class Model {
+public abstract class Model {
 }

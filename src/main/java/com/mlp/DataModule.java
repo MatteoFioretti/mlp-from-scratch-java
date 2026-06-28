@@ -1,4 +1,6 @@
 package com.mlp;
+// Field: batchsize
+// abstrac methods:
 
-public class DataModule {
+public abstract class DataModule {
 }
