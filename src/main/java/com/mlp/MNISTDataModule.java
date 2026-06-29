@@ -16,6 +16,8 @@ public class MNISTDataModule extends DataModule {
         this.X = loadImages(imagePath);
         this.y = loadLabels(labelPath);
     }
+    public double[][] getX() { return X; }
+    public double[][] getY() { return y; }
     @Override
     public Iterator<Batch> iterator(){
         return new BatchIterator();
