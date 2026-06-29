@@ -52,9 +52,29 @@ public class MLP extends Model {
         }
     }
 
-
+    @Override
     public double[][] forward(double[][] batchX){
+        X = batchX;
+        Z1 = MatrixUtils.addBias(MatrixUtils.matMul(X, W1), b1);
+        H1 = MatrixUtils.relu(Z1);
+        Z2 = MatrixUtils.addBias(MatrixUtils.matMul(H1, W2), b2);
+        H2 = MatrixUtils.relu(Z2);
+        Z3 = MatrixUtils.addBias(MatrixUtils.matMul(H2, W3), b3);
+        y_hat = MatrixUtils.softmax(Z3);
+        return y_hat;
+    }
 
-    };
-
+    @Override
+    public double loss(double[][] y_hat, double[][] y) {
+        int N = y.length;
+        int classes = y_hat[0].length;
+        double loss = 0;
+        for (int i = 0; i < N; i++){
+            for (int j = 0; j < classes; j++){
+                loss += -y[i][j] * Math.log(y_hat[i][j] + 1e-12);
+            }
+        }
+        loss = loss / N;
+        return loss;
+    }
 }

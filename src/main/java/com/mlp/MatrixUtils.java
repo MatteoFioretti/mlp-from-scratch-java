@@ -55,4 +55,48 @@ public class MatrixUtils {
         return O;
     }
 
+    public static double[][] transpose(double[][] W){
+        int rows = W.length;
+        int cols = W[0].length;
+        double[][] T = new double[cols][rows];
+        for (int i = 0; i < cols; i++){
+            for (int j = 0; j < rows; j++){
+                T[i][j] = W[j][i];
+            }
+        }
+        return T;
+    }
+
+    public static double[][] subtract(double[][] A, double[][] B) {
+        double[][] C = new double[A.length][A[0].length];
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                C[i][j] = A[i][j] - B[i][j];
+            }
+        }
+        return C;
+    }
+
+    public static double[][] multiply(double[][] A, double[][] B) {
+        double[][] C = new double[A.length][A[0].length];
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                C[i][j] = A[i][j] * B[i][j];
+            }
+        }
+        return C;
+    }
+
+    public static double[] sumColumns(double[][] dZ) {
+        int rows = dZ.length;
+        int cols = dZ[0].length;
+        double[] result = new double[cols];
+        for (int j = 0; j < cols; j++) {
+            for (int i = 0; i < rows; i++) {
+                result[j] += dZ[i][j];
+            }
+        }
+        return result;
+    }
+
 }
