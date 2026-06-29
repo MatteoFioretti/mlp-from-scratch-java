@@ -51,4 +51,10 @@ public class MLP extends Model {
             }
         }
     }
+
+
+    public double[][] forward(double[][] batchX){
+
+    };
+
 }
