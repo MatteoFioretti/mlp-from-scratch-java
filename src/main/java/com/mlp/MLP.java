@@ -1,4 +1,54 @@
 package com.mlp;
 
-public class MLP {
+import java.util.Random;
+
+public class MLP extends Model {
+
+        // Parameters
+        private double[][] W1, W2, W3;
+        private double[] b1, b2, b3;
+
+        // Gradients
+        private double[][] dW1, dW2, dW3;
+        private double[] db1, db2, db3;
+
+        // Forward-pass cache (for backprop)
+        private double[][] X;          // input batch
+        private double[][] Z1, H1;     // hidden layer 1 pre-activation & activation
+        private double[][] Z2, H2;     // hidden layer 2 pre-activation & activation
+        private double[][] Z3, y_hat;     // output pre-activation & softmax ou
+    public MLP() {
+
+        // Allocate parameters
+        W1 = new double[784][256];
+        b1 = new double[256];
+        W2 = new double[256][64];
+        b2 = new double[64];
+        W3 = new double[64][10];
+        b3 = new double[10];
+
+        // Allocate gradients (same shapes)
+        dW1 = new double[784][256];
+        db1 = new double[256];
+        dW2 = new double[256][64];
+        db2 = new double[64];
+        dW3 = new double[64][10];
+        db3 = new double[10];
+
+        heInit(W1);
+        heInit(W2);
+        heInit(W3);
+
+    }
+
+    private static void heInit(double[][] W){
+        Random rng = new Random();
+        int nIn = W.length;
+        double scale = Math.sqrt(2.0/ nIn);
+        for (int i = 0; i < nIn; i++){
+            for (int j = 0; j < W[0].length; j++){
+                W[i][j] = rng.nextGaussian() * scale;
+            }
+        }
+    }
 }
