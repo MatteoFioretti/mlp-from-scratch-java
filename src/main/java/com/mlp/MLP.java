@@ -96,8 +96,15 @@ public class MLP extends Model {
         db1 = MatrixUtils.sumColumns(dZ1);
     }
 
+
+
     @Override
     public void step(double learningRate){
-
+        MatrixUtils.updateInPlace(W1, dW1, learningRate );
+        MatrixUtils.updateInPlace(b1, db1, learningRate);
+        MatrixUtils.updateInPlace(W2, dW2, learningRate );
+        MatrixUtils.updateInPlace(b2, db2, learningRate);
+        MatrixUtils.updateInPlace(W3, dW3, learningRate );
+        MatrixUtils.updateInPlace(b3, db3, learningRate);
     }
 }

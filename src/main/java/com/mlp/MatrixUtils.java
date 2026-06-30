@@ -109,4 +109,17 @@ public class MatrixUtils {
         return D;
     }
 
+    public static void updateInPlace(double[][] W, double[][] dW, double lr) {
+        for (int i = 0; i < W.length; i++){
+            for (int j = 0; j < W[0].length; j++){
+                W[i][j] -= lr * dW[i][j];
+            }
+        }
+    }
+    public static void updateInPlace(double[] b, double[] db, double lr) {
+        for (int i = 0; i < b.length; i++){
+            b[i] -= lr * db[i];
+        }
+    }
+
 }
