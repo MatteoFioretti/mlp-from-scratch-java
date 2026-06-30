@@ -30,38 +30,21 @@ public class Main {
         }
         System.out.println("label: " + digit);
     }
-    public static void main(String[] args) throws  IOException, InterruptedException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         MNISTDataModule trainData = new MNISTDataModule(128,
                 "data/train-images.idx3-ubyte",
                 "data/train-labels.idx1-ubyte");
 
-        // MLP test
-        Batch first = trainData.iterator().next();
-        double[][] batchX = first.getX();
-        double[][] label = first.gety();
+        MNISTDataModule testData = new MNISTDataModule(128,
+                "data/t10k-images.idx3-ubyte",
+                "data/t10k-labels.idx1-ubyte");
+
         MLP model = new MLP();
-        double[][] preds = model.forward(batchX);
-        double[] row = preds[0];
-        double sum = 0;
 
-        /*
-        for (int i = 0; i < row.length; i++){
-            sum += row[i];
-        }
-        System.out.println(sum);
-        */
-        double loss = model.loss(preds, label);
-        System.out.println("Initial loss value: " + loss);
+        Trainer trainer = new Trainer(model, trainData, 0.001, 10);
 
-        double learningRate = 0.001;
-        for (int i = 0; i < 50; i++) {
-            double[][] y_hat = model.forward(batchX);
-            double l = model.loss(y_hat, label);
-            System.out.println("Step " + i + " loss: " + l);
-            model.backward(label);
-            model.step(learningRate);
-        }
-
+        trainer.train();
+        trainer.evaluate(testData);
     }
 }
 
