@@ -1,6 +1,12 @@
 package com.mlp;
 
 import java.util.Random;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Scanner;
 
 public class MLP extends Model {
 
@@ -107,4 +113,72 @@ public class MLP extends Model {
         MatrixUtils.updateInPlace(W3, dW3, learningRate );
         MatrixUtils.updateInPlace(b3, db3, learningRate);
     }
+
+    // ===== Persistence =====
+
+    public void save(String path) throws IOException {
+        // PrintWriter wrapped over a BufferedWriter/FileWriter: lets us write text efficiently.
+        // try-with-resources auto-closes the file when done (same idiom as the MNIST loader).
+        try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(path)))) {
+            writeMatrix(writer, W1);
+            writeVector(writer, b1);
+            writeMatrix(writer, W2);
+            writeVector(writer, b2);
+            writeMatrix(writer, W3);
+            writeVector(writer, b3);
+        }
+    }
+
+    public void load(String path) throws IOException {
+        // Scanner reads tokens from the file; nextDouble() pulls and parses one number at a time,
+        // automatically skipping the whitespace between numbers.
+        try (Scanner scanner = new Scanner(new File(path))) {
+            scanner.useLocale(java.util.Locale.US);   // force dot-decimal parsing
+            readMatrix(scanner, W1);
+            readVector(scanner, b1);
+            readMatrix(scanner, W2);
+            readVector(scanner, b2);
+            readMatrix(scanner, W3);
+            readVector(scanner, b3);
+        }
+    }
+
+// --- write helpers ---
+
+    private static void writeMatrix(PrintWriter writer, double[][] M) {
+        for (int i = 0; i < M.length; i++) {
+            for (int j = 0; j < M[0].length; j++) {
+                writer.print(new java.math.BigDecimal(M[i][j]).toPlainString());
+                writer.print(" ");
+            }
+            writer.println();
+        }
+    }
+
+    private static void writeVector(PrintWriter writer, double[] v) {
+        for (int i = 0; i < v.length; i++) {
+            writer.print(new java.math.BigDecimal(v[i]).toPlainString());
+            writer.print(" ");
+        }
+        writer.println();
+    }
+
+// --- read helpers ---
+
+    private static void readMatrix(Scanner scanner, double[][] M) {
+        // We know M's exact dimensions, so we read exactly that many numbers, in order.
+        for (int i = 0; i < M.length; i++) {
+            for (int j = 0; j < M[0].length; j++) {
+                M[i][j] = scanner.nextDouble();
+            }
+        }
+    }
+
+    private static void readVector(Scanner scanner, double[] v) {
+        for (int i = 0; i < v.length; i++) {
+            v[i] = scanner.nextDouble();
+        }
+    }
 }
+
+
