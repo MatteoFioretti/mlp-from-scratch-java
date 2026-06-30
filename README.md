@@ -112,7 +112,7 @@ mvn compile
 ### 3. Run
 
 ```bash
-mvn exec:java -Dexec.mainClass="com.mlp.Main"
+mvn exec:java
 ```
 
 Or run `Main` directly from your IDE.
