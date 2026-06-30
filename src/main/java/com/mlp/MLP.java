@@ -77,4 +77,27 @@ public class MLP extends Model {
         loss = loss / N;
         return loss;
     }
+
+    @Override
+    public void backward(double[][] y){
+        // First block
+        double[][] dZ3 = MatrixUtils.subtract(y_hat , y);
+        dW3 = MatrixUtils.matMul(MatrixUtils.transpose(H2), dZ3);
+        db3 = MatrixUtils.sumColumns(dZ3);
+        double[][] dH2 = MatrixUtils.matMul(dZ3, MatrixUtils.transpose(W3));
+        // Second block
+        double[][] dZ2 = MatrixUtils.multiply(dH2, MatrixUtils.reluDerivative(Z2));
+        dW2 = MatrixUtils.matMul(MatrixUtils.transpose(H1), dZ2);
+        db2 = MatrixUtils.sumColumns(dZ2);
+        double[][] dH1 = MatrixUtils.matMul(dZ2, MatrixUtils.transpose(W2));
+        // Third block
+        double[][] dZ1 = MatrixUtils.multiply(dH1, MatrixUtils.reluDerivative(Z1));
+        dW1 = MatrixUtils.matMul(MatrixUtils.transpose(X), dZ1);
+        db1 = MatrixUtils.sumColumns(dZ1);
+    }
+
+    @Override
+    public void step(double learningRate){
+
+    }
 }

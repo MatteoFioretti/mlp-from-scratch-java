@@ -99,4 +99,14 @@ public class MatrixUtils {
         return result;
     }
 
+    public static double[][] reluDerivative(double[][] Z) {
+        double[][] D = new double[Z.length][Z[0].length];
+        for (int i = 0; i < Z.length; i++) {
+            for (int j = 0; j < Z[0].length; j++) {
+                D[i][j] = Z[i][j] > 0 ? 1.0 : 0.0;
+            }
+        }
+        return D;
+    }
+
 }
