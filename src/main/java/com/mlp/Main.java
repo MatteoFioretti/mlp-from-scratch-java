@@ -35,13 +35,33 @@ public class Main {
                 "data/train-images.idx3-ubyte",
                 "data/train-labels.idx1-ubyte");
 
-        int batchCount = 0;
-        for (Batch batch: trainData){
-            batchCount ++;
-        }
-        System.out.println("Total batches: " + batchCount);
+        // MLP test
+        Batch first = trainData.iterator().next();
+        double[][] batchX = first.getX();
+        double[][] label = first.gety();
+        MLP model = new MLP();
+        double[][] preds = model.forward(batchX);
+        double[] row = preds[0];
+        double sum = 0;
 
-        printImage(trainData.getX()[10], trainData.getY()[10]);
+        /*
+        for (int i = 0; i < row.length; i++){
+            sum += row[i];
+        }
+        System.out.println(sum);
+        */
+
+        double loss = model.loss(preds, label);
+        System.out.println("Initial loss value: " + loss);
+
+        double learningRate = 0.001;
+        for (int i = 0; i < 50; i++) {
+            double[][] y_hat = model.forward(batchX);
+            double l = model.loss(y_hat, label);
+            System.out.println("Step " + i + " loss: " + l);
+            model.backward(label);
+            model.step(learningRate);
+        }
     }
 }
 
