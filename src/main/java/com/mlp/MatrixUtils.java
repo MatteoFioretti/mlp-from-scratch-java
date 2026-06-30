@@ -122,4 +122,14 @@ public class MatrixUtils {
         }
     }
 
+    public static int argmax(double[] row){
+        int idx = 0;
+        for (int i = 1; i < row.length; i++){
+            if (row[i] > row[idx]){
+                idx = i;
+            }
+        }
+        return idx;
+    }
+
 }

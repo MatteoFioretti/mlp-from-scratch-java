@@ -50,7 +50,6 @@ public class Main {
         }
         System.out.println(sum);
         */
-
         double loss = model.loss(preds, label);
         System.out.println("Initial loss value: " + loss);
 
@@ -62,6 +61,7 @@ public class Main {
             model.backward(label);
             model.step(learningRate);
         }
+
     }
 }
 
