@@ -52,4 +52,28 @@ public class Trainer {
                     epoch + 1, avgLoss, avgAccuracy * 100);
         }
     }
+
+    public double evaluate(DataModule testData){
+        double loss = 0;
+        double accuracy = 0;
+        int batchCounter = 0;
+        for (Batch batch: testData){
+            batchCounter += 1;
+
+            double[][] batchX = batch.getX();
+            double[][] y = batch.gety();
+            double[][] y_hat = model.forward(batchX);
+            double batchLoss = model.loss(y_hat, y);
+            double batchAccuracy = accuracy(y_hat, y);
+
+            loss += batchLoss;
+            accuracy += batchAccuracy;
+        }
+        double avgLoss = loss/batchCounter;
+        double avgAccuracy = accuracy/batchCounter;
+
+        System.out.printf("Test — loss: %.4f, accuracy: %.2f%%%n",
+                avgLoss, avgAccuracy * 100);
+        return avgAccuracy;
+    }
 }
